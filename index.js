@@ -51,6 +51,7 @@ app.post('/start-round', (req, res) => {
 app.post('/random-word', (req, res) => {
   if (currentRoundStrings.length == 0) {
     res.send('<span style="color: red">Joko sanat on loppu hatusta tai kierrosta ei ole vielä aloitettu!</span>' + '<br><a href="/">takas</a>');
+    return;
   }
   const randomIndex = Math.floor(Math.random() * currentRoundStrings.length);
   const str = currentRoundStrings[randomIndex];
