@@ -39,7 +39,7 @@ app.post('/submit-string', (req, res) => {
     } else {
       collectedStrings.push(string);
       collectedStringsLowercase.push(stringLower);
-      res.send('Vastaanotettiin: "' + req.body.input + '".<br/> Yhteensä kerättynä sanoja: ' + collectedStrings.length + '<br><a href="/">takas</a>');
+      res.send('Vastaanotettiin: "' + req.body.input + '".<br/>Kerättyjä sanoja: ' + collectedStrings.length + '<br/><a href="/">takas</a>');
     }
   } else {
     res.send('<span style="color: red">Joku meni vikaan.</span><br><a href="/">koitapa uusiksi</a>');
@@ -48,7 +48,7 @@ app.post('/submit-string', (req, res) => {
 
 app.post('/start-round', (req, res) => {
   currentRoundStrings = [...collectedStrings];
-  res.send('Sanat on kaikki hatussa, kierros on valmiina alkamaan!' + '<br><a href="/">takas</a>');
+  res.send('Kaikki sanat (' + currentRoundStrings.length + ') ovat hatussa, kierros on valmiina alkamaan!' + '<br><a href="/">takas</a>');
 });
 
 app.post('/random-word', (req, res) => {
