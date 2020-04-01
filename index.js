@@ -14,6 +14,23 @@ let collectedStringsLowercase = [];
 
 let currentRoundStrings = [];
 
+let escapeHTML = function(unsafe) {
+  return unsafe.replace(/[&<>"']/g, function(m) {
+    switch (m) {
+      case '&':
+        return '&amp;';
+      case '<':
+        return '&lt;';
+      case '>':
+        return '&gt;';
+      case '"':
+        return '&quot;';
+      default:
+        return '&#039;';
+    }
+  });
+};
+
 app.get('/', (req, res) => {
   res.send(`<form method="POST" action="/submit-string">
   Kirjoita sanaehdotus tähän: 
@@ -39,7 +56,7 @@ app.post('/submit-string', (req, res) => {
     } else {
       collectedStrings.push(string);
       collectedStringsLowercase.push(stringLower);
-      res.send('Vastaanotettiin: "' + req.body.input + '".<br/>Kerättyjä sanoja: ' + collectedStrings.length + '<br/><a href="/">takas</a>');
+      res.send('Vastaanotettiin: "' + escapeHTML(string) + '".<br/>Kerättyjä sanoja: ' + collectedStrings.length + '<br/><a href="/">takas</a>');
     }
   } else {
     res.send('<span style="color: red">Joku meni vikaan.</span><br><a href="/">koitapa uusiksi</a>');
@@ -60,7 +77,7 @@ app.post('/random-word', (req, res) => {
   const str = currentRoundStrings[randomIndex];
   currentRoundStrings.splice(randomIndex, 1);
   res.send(`<body style="font-size: 50px;">
-  ${str}<br /><br />
+  ${escapeHTML(str)}<br /><br />
   Sanoja jäljellä: ${ currentRoundStrings.length }<br />
   <form method="POST" action="/random-word">
     <input type="submit" style="padding: 30px;" value="Poimi sana hatusta" />
